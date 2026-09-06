@@ -1,6 +1,9 @@
 package com.example.nap.presentation.screen.note.viewmodel
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.nap.data.repository.TestNotesRepositoryImpl
 import com.example.nap.domain.model.Note
 import com.example.nap.domain.usecase.AddNoteUseCase
@@ -10,8 +13,6 @@ import com.example.nap.domain.usecase.GetAllNotesUseCase
 import com.example.nap.domain.usecase.GetNoteUseCase
 import com.example.nap.domain.usecase.SearchNoteUseCase
 import com.example.nap.domain.usecase.SwitchPinnedStatusUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotesViewModel : ViewModel() {
@@ -48,7 +50,10 @@ class NotesViewModel : ViewModel() {
     //Public property which subscribes from the view
     val state: StateFlow<NoteScreenState> = _state.asStateFlow()
 
-    private val scope = CoroutineScope(Dispatchers.IO)
+    /*
+     If you defined custom scope, clear them on the onClear function. Else use the vieModelScope
+     private val scope = CoroutineScope(Dispatchers.IO)
+     */
 
     /*
         Init block will perform automatically as soon as the view is created. For example if the search query is
@@ -68,36 +73,52 @@ class NotesViewModel : ViewModel() {
             val pinnedNotes = map.filter { it.isPinned }
             val otherNotes = map.filter { !it.isPinned }
             _state.update { it.copy(pinnedNotes = pinnedNotes, otherNotes = otherNotes) }
-        }.launchIn(scope)
+        }.launchIn(viewModelScope)
+    }
+
+    /*Even the main activity that host the viewmodel destroys, the viewmodel continuous to live. For example
+    * the screen rotation does not destroy the view model*/
+    @SuppressLint("EmptySuperCall")
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("NotesViewModel", "View Model Destroyed")
+//        viewModelScope.cancel()
     }
 
     //The function that can be called from the view in order to handle all the commands
+    /*
+    coroutines must be launched within a scope with a defined lifecycle
+    * */
     fun processCommand(command: NotesCommands) {
-        when (command) {
-            is NotesCommands.DeleteNote -> {
-                deleteNoteUseCase(command.noteId)
-            }
+        viewModelScope.launch {
+            when (command) {
+                is NotesCommands.DeleteNote -> {
+                    deleteNoteUseCase(command.noteId)
+                }
 
-            is NotesCommands.EditNote -> {
-                val note = getNoteUseCase(command.note.id)
-                val newTitle = note.title
-                editNoteUseCase(note.copy(title = newTitle + "edited"))
+                is NotesCommands.EditNote -> {
+                    val note = getNoteUseCase(command.note.id)
+                    val newTitle = note.title
+                    editNoteUseCase(note.copy(title = newTitle + "edited"))
 
-            }
+                }
 //            Everytime the search query changes the flow will react
-            is NotesCommands.InputSearchQuery -> {
-                query.update { command.query.trim() }
-            }
+                is NotesCommands.InputSearchQuery -> {
+                    query.update { command.query.trim() }
+                }
 
-            is NotesCommands.SwitchPinStatus -> {
-                switchPinnedStatusUseCase(command.noteId)
+                is NotesCommands.SwitchPinStatus -> {
+                    switchPinnedStatusUseCase(command.noteId)
+                }
             }
         }
     }
 
     private fun addSomeNotes() {
-        repeat(100) {
-            addNoteUseCase(title = "Title N$it", content = "content N$it")
+        viewModelScope.launch {
+            repeat(100) {
+                addNoteUseCase(title = "Title N$it", content = "content N$it")
+            }
         }
     }
 }

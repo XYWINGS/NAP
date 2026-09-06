@@ -17,10 +17,9 @@ object TestNotesRepositoryImpl : NotesRepository {
 
     private val notesFlowList: MutableStateFlow<List<Note>> = MutableStateFlow(listOf())
 
-    override fun addNote(
+    override suspend fun addNote(
         title: String, content: String, isPinned: Boolean, updatedAt: Long
-    ) {
-        /*Mod modify the state flow we make it mutable add the new
+    ) {/*Mod modify the state flow we make it mutable add the new
            data and then assign it to the state flow again*/
 
 //        Method 1
@@ -37,6 +36,10 @@ object TestNotesRepositoryImpl : NotesRepository {
 
 //        Method 3
 //        Here the + is overridden and works exactly same as above (see the doc)
+        /*
+        If the repo implementations performs a long operation using suspend functions will not block the
+        * main thread and the users can keep working on it
+        */
         notesFlowList.update { oldList ->
             val note = Note(
                 id = oldList.size,
@@ -50,7 +53,7 @@ object TestNotesRepositoryImpl : NotesRepository {
 
     }
 
-    override fun deleteNote(noteId: Int) {
+    override suspend fun deleteNote(noteId: Int) {
         notesFlowList.update {
             it.toMutableList().apply {
                 removeIf { note ->
@@ -60,7 +63,7 @@ object TestNotesRepositoryImpl : NotesRepository {
         }
     }
 
-    override fun editNote(note: Note) {
+    override suspend fun editNote(note: Note) {
         notesFlowList.update { oldList ->
             oldList.map { listNote ->
                 if (listNote.id == note.id) {
@@ -79,11 +82,11 @@ object TestNotesRepositoryImpl : NotesRepository {
     }
 
     //    There is a possibility of the note wasn't found. Use the firstOrNUll method and handle the null path, otherwise it may crash
-    override fun getNote(noteId: Int): Note {
+    override suspend fun getNote(noteId: Int): Note {
         return notesFlowList.value.first { it.id == noteId }
     }
 
-    override fun switchPinnedStatus(noteId: Int) {
+    override suspend fun switchPinnedStatus(noteId: Int) {
         notesFlowList.update { oldList ->
             oldList.map { listNote ->
                 if (listNote.id == noteId) {
