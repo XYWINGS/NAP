@@ -9,26 +9,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25a51483-58ff-44df-99a4-3ba31414afb8" name="Changes" comment="Define suspend functions with coroutines">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_creation/composable/CreateNoteScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_creation/viewmodel/CreateNoteViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/NoteScreen.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/utils/DateFormatter.kt" afterDir="false" />
+    <list default="true" id="25a51483-58ff-44df-99a4-3ba31414afb8" name="Changes" comment="Implement edit note UI and view models">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/navigation/CustomNavGraph.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_edit/composable/EditNoteSceem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_edit/viewmodel/EditNoteViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/AddNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/AddNoteUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/DeleteNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/DeleteNoteUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/EditNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/EditNoteUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/GetAllNotesUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/GetAllNotesUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/GetNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/GetNoteUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/SearchNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/SearchNoteUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/SwitchPinnedStatusUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/SwitchPinnedStatusUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/repository/TestNotesRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/repository/TestNotesRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/NoteCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/NoteCard.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/NoteScreen.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/SearchBar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/SearchBar.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/Subtitle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/Subtitle.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/Title.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/Title.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/viewmodel/NotesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/viewmodel/NotesViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/viewmodel/NotesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/viewmodel/NotesViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,12 +39,7 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="NAP" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -102,22 +87,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;L:/NAP&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.app.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "L:/NAP",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="L:\NAP\app\src\main\java\com\example\nap\presentation\screen\note\" />
@@ -126,6 +112,7 @@
       <recent name="com.example.nap.data" />
     </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
+      <recent name="com.example.nap.presentation.screen.note_edit.viewmodel" />
       <recent name="com.example.nap.data.repository" />
       <recent name="com.example.nap.domain.repository" />
       <recent name="com.example.nap.domain.model" />
@@ -248,7 +235,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788691155746</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Implement create note UI and view models">
+      <option name="closed" value="true" />
+      <created>1788706397518</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1788706397518</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -258,7 +253,9 @@
     <MESSAGE value="Implement the composable functions" />
     <MESSAGE value="Enhance the UI elements" />
     <MESSAGE value="Define suspend functions with coroutines" />
-    <option name="LAST_COMMIT_MESSAGE" value="Define suspend functions with coroutines" />
+    <MESSAGE value="Implement create note UI and view models" />
+    <MESSAGE value="Implement edit note UI and view models" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement edit note UI and view models" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

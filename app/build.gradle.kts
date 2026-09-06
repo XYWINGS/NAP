@@ -36,12 +36,14 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-//    Import this inorder to use view models
+    //    Import this inorder to use view models
     implementation(platform(libs.androidx.compose.bom))
 //    Import material icon library
     implementation(libs.androidx.compose.material.icons.core)
+//    Navigation library
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)

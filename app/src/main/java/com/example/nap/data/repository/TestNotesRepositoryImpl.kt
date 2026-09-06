@@ -15,7 +15,21 @@ import kotlinx.coroutines.flow.update
 
 object TestNotesRepositoryImpl : NotesRepository {
 
-    private val notesFlowList: MutableStateFlow<List<Note>> = MutableStateFlow(listOf())
+    private val addSomeNotes: MutableList<Note> = mutableListOf<Note>().apply {
+        repeat(100) {
+            add(
+                Note(
+                    id = it,
+                    title = "Title N$it",
+                    content = "You usually access ViewModel instances at screen-level composables, that is, close to a root composable called from an activity, fragment, or destination of a Navigation graph. This is because ViewModels are, by default, scoped to those screen level objects. Read more about a ViewModel's lifecycle and scope here.\n" + "\n" + "Try to avoid passing down ViewModel instances to other composables as this can make those composables more difficult to test and can break previews. Instead, pass only the data and functions they need as parameters.\n" + "\n" + "You can use ViewModel instances to manage state for sub screen-level composables, however, be aware of the ViewModel's lifecycle and scope. If the composable is self-contained, you may want to consider using Hilt to inject the ViewModel to avoid having to pass dependencies from parent composables.\n" + "\n" + "If your ViewModel has dependencies, viewModel() takes an optional ViewModelProvider.Factory as a parameter.\n" + "\n" + "For more information about ViewModel in Compose and how instances are used with the Navigation Compose library, or activities and fragments, see the Interoperability docs.",
+                    updatedAt = System.currentTimeMillis(),
+                    isPinned = false
+                )
+            )
+        }
+    }
+
+    private val notesFlowList = MutableStateFlow<List<Note>>(addSomeNotes)
 
     override suspend fun addNote(
         title: String, content: String, isPinned: Boolean, updatedAt: Long

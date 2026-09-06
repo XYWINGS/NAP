@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.nap.presentation.screen.note_creation.composable.CreateNoteScreen
+import com.example.nap.presentation.navigation.NavGraph
 import com.example.nap.presentation.ui.theme.NAPTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,19 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NAPTheme {
-//                NoteScreen(
-//                    onNoteClick = {
-//                        Log.d("MainActivity", "onNoteClick invoked $it")
-//                    },
-//                    onFloatingActionButtonClick = {
-//                        Log.d("MainActivity", "onFloatingActionButtonClick invoked")
-//                    },
-//                )
-                CreateNoteScreen(
-                    onFinishNoteCreation = {
-                        Log.d("MainActivity", "A new note created")
-                    }
-                )
+                NavGraph()
             }
         }
     }
