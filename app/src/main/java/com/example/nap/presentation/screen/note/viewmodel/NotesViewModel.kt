@@ -80,7 +80,8 @@ class NotesViewModel : ViewModel() {
 
             is NotesCommands.EditNote -> {
                 val note = getNoteUseCase(command.note.id)
-                editNoteUseCase(note)
+                val newTitle = note.title
+                editNoteUseCase(note.copy(title = newTitle + "edited"))
 
             }
 //            Everytime the search query changes the flow will react
@@ -95,7 +96,7 @@ class NotesViewModel : ViewModel() {
     }
 
     private fun addSomeNotes() {
-        repeat(50) {
+        repeat(1000) {
             addNoteUseCase(title = "Title N$it", content = "content N$it")
         }
     }
