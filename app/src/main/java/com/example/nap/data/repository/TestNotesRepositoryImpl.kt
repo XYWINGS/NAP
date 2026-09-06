@@ -8,11 +8,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-class NotesRepositoryImpl : NotesRepository {
+/*
+ Declaring the repo as an object will make it a singleton class. So there will be no data mismatches
+ when used across multiple classes
+*/
+
+object TestNotesRepositoryImpl : NotesRepository {
 
     private val notesFlowList: MutableStateFlow<List<Note>> = MutableStateFlow(listOf())
 
-    override fun addNote(note: Note) {/*Mod modify the state flow we make it mutable add the new data and then assign it to the state flow again*/
+    override fun addNote(title: String, content: String) {/*Mod modify the state flow we make it mutable add the new
+           data and then assign it to the state flow again*/
 
 //        Method 1
 //        val newNote: MutableList<Note> = notesFlowList.value.toMutableList()
@@ -28,8 +34,15 @@ class NotesRepositoryImpl : NotesRepository {
 
 //        Method 3
 //        Here the + is overridden and works exactly same as above (see the doc)
-        notesFlowList.update {
-            it + note
+        notesFlowList.update { oldList ->
+            val note = Note(
+                id = oldList.size,
+                title = title,
+                content = content,
+                updatedAt = System.currentTimeMillis(),
+                isPinned = false
+            )
+            oldList + note
         }
 
     }
@@ -62,7 +75,7 @@ class NotesRepositoryImpl : NotesRepository {
         return notesFlowList.asStateFlow()
     }
 
-    //    There is a possibility of the note wasn't been found. Use the firstOrNUll method and handle the null path, otherwise it may crash
+    //    There is a possibility of the note wasn't found. Use the firstOrNUll method and handle the null path, otherwise it may crash
     override fun getNote(noteId: Int): Note {
         return notesFlowList.value.first { it.id == noteId }
     }
