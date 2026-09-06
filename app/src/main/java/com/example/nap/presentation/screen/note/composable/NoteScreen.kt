@@ -1,11 +1,14 @@
 package com.example.nap.presentation.screen.note.composable
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,6 +18,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.nap.presentation.screen.note.viewmodel.NoteScreenState
 import com.example.nap.presentation.screen.note.viewmodel.NotesCommands
 import com.example.nap.presentation.screen.note.viewmodel.NotesViewModel
+import com.example.nap.presentation.ui.theme.OtherNotesColor
+import com.example.nap.presentation.ui.theme.PinnedNotesColor
 
 @Composable
 fun NoteScreen(
@@ -37,40 +42,91 @@ fun NoteScreen(
     */
 
     LazyColumn(
-        modifier = Modifier.padding(top = 48.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = modifier.padding(top = 48.dp)
     ) {
         item {
+            Title(modifier = Modifier.padding(horizontal = 24.dp), text = "All Notes")
+        }
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        item {
+            SearchBar(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                query = state.query,
+                onQueryChange = {
+                    viewMoel.processCommand(NotesCommands.InputSearchQuery(it))
+                })
+        }
+        item {
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+        item {
+            Subtitle(modifier = Modifier.padding(horizontal = 24.dp), text = "All Notes")
+        }
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        item {
             LazyRow(
-                modifier = Modifier
-                    .padding(top = 48.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(horizontal = 24.dp)
             ) {
-                state.pinnedNotes.forEach { note ->
-//                    Use key to bind an item to the object it displays
-                    item(key = note.id) {
-                        NoteCard(
-                            note = note, onNoteClick = {
-                                viewMoel.processCommand(NotesCommands.SwitchPinStatus(note.id))
-                            })
-                    }
-
+//              Use key to bind an item to the object it displays
+                itemsIndexed(
+                    items = state.pinnedNotes, key = { _, note -> note.id }) { index, note ->
+                    NoteCard(
+                        note = note,
+                        backgroundColor = PinnedNotesColor[index % PinnedNotesColor.size],
+                        onNoteClick = {
+                            viewMoel.processCommand(NotesCommands.EditNote(note))
+                        },
+                        onLongClick = {
+                            viewMoel.processCommand(NotesCommands.SwitchPinStatus(note.id))
+                        },
+                        onDoubleClick = {
+                            viewMoel.processCommand(NotesCommands.DeleteNote(note.id))
+                        })
                 }
             }
         }
-        /*
+        item {
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+        item {
+            Subtitle(modifier = Modifier.padding(horizontal = 24.dp), text = "Others")
+        }
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }/*
         This is the same as above for each function. Instead of manually iterating we pass the collection to
         the items and let it go through it.
         We use the key to link the item with the ui updates. For example if it wasn't used and updated item will
         show incrrect ui states.
         So the items will properly associate with the objects that they display
-        */
-
-        items(items = state.otherNotes, key = { it.id }) { note ->
-            NoteCard(note = note, onNoteClick = {
-                viewMoel.processCommand(NotesCommands.SwitchPinStatus(note.id))
-            })
-
+        *//*
+         Define an itemsIndexed when you need to access the index of an item. Ex: Applying colors
+         based on the index
+         */
+        itemsIndexed(items = state.otherNotes, key = { _, note -> note.id }) { index, note ->
+            NoteCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                note = note,
+                onNoteClick = {
+                    viewMoel.processCommand(NotesCommands.SwitchPinStatus(note.id))
+                },
+                backgroundColor = OtherNotesColor[index % OtherNotesColor.size],
+                onLongClick = {
+                    viewMoel.processCommand(NotesCommands.SwitchPinStatus(note.id))
+                },
+                onDoubleClick = {
+                    viewMoel.processCommand(NotesCommands.DeleteNote(note.id))
+                }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

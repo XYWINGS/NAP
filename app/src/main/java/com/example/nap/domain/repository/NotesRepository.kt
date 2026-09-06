@@ -4,7 +4,7 @@ import com.example.nap.domain.model.Note
 import kotlinx.coroutines.flow.Flow
 
 interface NotesRepository {
-    fun addNote(title: String, content: String)
+    fun addNote(title: String, content: String, isPinned: Boolean, updatedAt: Long)
     fun deleteNote(noteId: Int)
     fun editNote(note: Note)
     fun getAllNotes(): Flow<List<Note>>
