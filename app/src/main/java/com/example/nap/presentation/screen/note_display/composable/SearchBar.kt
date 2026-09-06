@@ -1,4 +1,4 @@
-package com.example.nap.presentation.screen.note.composable
+package com.example.nap.presentation.screen.note_display.composable
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth

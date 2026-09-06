@@ -1,4 +1,4 @@
-package com.example.nap.domain.usecase
+package com.example.nap.domain.use_case
 
 import com.example.nap.domain.repository.NotesRepository
 import com.example.nap.domain.model.Note

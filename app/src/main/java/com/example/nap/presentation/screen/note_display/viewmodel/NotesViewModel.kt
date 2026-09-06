@@ -1,4 +1,4 @@
-package com.example.nap.presentation.screen.note.viewmodel
+package com.example.nap.presentation.screen.note_display.viewmodel
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nap.data.repository.TestNotesRepositoryImpl
 import com.example.nap.domain.model.Note
-import com.example.nap.domain.usecase.AddNoteUseCase
-import com.example.nap.domain.usecase.DeleteNoteUseCase
-import com.example.nap.domain.usecase.EditNoteUseCase
-import com.example.nap.domain.usecase.GetAllNotesUseCase
-import com.example.nap.domain.usecase.GetNoteUseCase
-import com.example.nap.domain.usecase.SearchNoteUseCase
-import com.example.nap.domain.usecase.SwitchPinnedStatusUseCase
+import com.example.nap.domain.use_case.AddNoteUseCase
+import com.example.nap.domain.use_case.DeleteNoteUseCase
+import com.example.nap.domain.use_case.EditNoteUseCase
+import com.example.nap.domain.use_case.GetAllNotesUseCase
+import com.example.nap.domain.use_case.GetNoteUseCase
+import com.example.nap.domain.use_case.SearchNoteUseCase
+import com.example.nap.domain.use_case.SwitchPinnedStatusUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -60,7 +60,7 @@ class NotesViewModel : ViewModel() {
         empty will fetch the all the notes from the use case
     */
     init {
-        addSomeNotes()
+//        addSomeNotes()
         query.onEach { input ->
             _state.update { it.copy(query = input) }
         }.flatMapLatest {
@@ -92,16 +92,16 @@ class NotesViewModel : ViewModel() {
     fun processCommand(command: NotesCommands) {
         viewModelScope.launch {
             when (command) {
-                is NotesCommands.DeleteNote -> {
-                    deleteNoteUseCase(command.noteId)
-                }
-
-                is NotesCommands.EditNote -> {
-                    val note = getNoteUseCase(command.note.id)
-                    val newTitle = note.title
-                    editNoteUseCase(note.copy(title = newTitle + "edited"))
-
-                }
+//                is NotesCommands.DeleteNote -> {
+//                    deleteNoteUseCase(command.noteId)
+//                }
+//
+//                is NotesCommands.EditNote -> {
+//                    val note = getNoteUseCase(command.note.id)
+//                    val newTitle = note.title
+//                    editNoteUseCase(note.copy(title = newTitle + "edited"))
+//
+//                }
 //            Everytime the search query changes the flow will react
                 is NotesCommands.InputSearchQuery -> {
                     query.update { command.query.trim() }
@@ -117,7 +117,18 @@ class NotesViewModel : ViewModel() {
     private fun addSomeNotes() {
         viewModelScope.launch {
             repeat(100) {
-                addNoteUseCase(title = "Title N$it", content = "content N$it")
+                addNoteUseCase(
+                    title = "Title N$it",
+                    content = "You usually access ViewModel instances at screen-level composables, that is, close to a root composable called from an activity, fragment, or destination of a Navigation graph. This is because ViewModels are, by default, scoped to those screen level objects. Read more about a ViewModel's lifecycle and scope here.\n" +
+                            "\n" +
+                            "Try to avoid passing down ViewModel instances to other composables as this can make those composables more difficult to test and can break previews. Instead, pass only the data and functions they need as parameters.\n" +
+                            "\n" +
+                            "You can use ViewModel instances to manage state for sub screen-level composables, however, be aware of the ViewModel's lifecycle and scope. If the composable is self-contained, you may want to consider using Hilt to inject the ViewModel to avoid having to pass dependencies from parent composables.\n" +
+                            "\n" +
+                            "If your ViewModel has dependencies, viewModel() takes an optional ViewModelProvider.Factory as a parameter.\n" +
+                            "\n" +
+                            "For more information about ViewModel in Compose and how instances are used with the Navigation Compose library, or activities and fragments, see the Interoperability docs."
+                )
             }
         }
     }
@@ -136,6 +147,6 @@ sealed interface NotesCommands {
     data class SwitchPinStatus(val noteId: Int) : NotesCommands
 
     //TEMP commands for testing
-    data class DeleteNote(val noteId: Int) : NotesCommands
-    data class EditNote(val note: Note) : NotesCommands
+//    data class DeleteNote(val noteId: Int) : NotesCommands
+//    data class EditNote(val note: Note) : NotesCommands
 }

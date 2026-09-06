@@ -1,4 +1,4 @@
-package com.example.nap.presentation.screen.note.composable
+package com.example.nap.presentation.screen.note_display.composable
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.background
@@ -14,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nap.domain.model.Note
+import com.example.nap.presentation.utils.DateFormatter
 
 /*
     Follow these three rules when working with reusable composable functions
@@ -35,35 +37,42 @@ fun NoteCard(
     backgroundColor: Color,
     onNoteClick: (Note) -> Unit,
     onLongClick: (Note) -> Unit,
-    onDoubleClick: (Note) -> Unit,
 ) {
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(backgroundColor)
-            .combinedClickable(onClick = {
-                onNoteClick(note)
-            }, onLongClick = { onLongClick(note) }, onDoubleClick = {
-                onDoubleClick(note)
-            })
+            .combinedClickable(
+                onClick = {
+                    onNoteClick(note)
+                },
+                onLongClick = { onLongClick(note) },
+            )
             .padding(16.dp)
     ) {
         Text(
-            text = note.title, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface
+            text = note.title,
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+
         )
 //        Instead of applying padding, margins to elements which can cause incontinent issue use spacers
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = note.updatedAt.toString(),
+            text = DateFormatter.formatterDateToString(note.updatedAt),
             fontSize = 12.sp,
             color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = note.title,
+            text = note.content,
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onSurface,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
+            maxLines = 4,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

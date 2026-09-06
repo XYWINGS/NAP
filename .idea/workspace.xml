@@ -9,17 +9,26 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25a51483-58ff-44df-99a4-3ba31414afb8" name="Changes" comment="Enhance the UI elements">
+    <list default="true" id="25a51483-58ff-44df-99a4-3ba31414afb8" name="Changes" comment="Define suspend functions with coroutines">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_creation/composable/CreateNoteScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_creation/viewmodel/CreateNoteViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/NoteScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/utils/DateFormatter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/repository/TestNotesRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/repository/TestNotesRepositoryImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/repository/NotesRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/repository/NotesRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/AddNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/AddNoteUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/DeleteNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/DeleteNoteUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/EditNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/EditNoteUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/GetNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/GetNoteUseCase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/SwitchPinnedStatusUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/SwitchPinnedStatusUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/AddNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/AddNoteUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/DeleteNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/DeleteNoteUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/EditNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/EditNoteUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/GetAllNotesUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/GetAllNotesUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/GetNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/GetNoteUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/SearchNoteUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/SearchNoteUseCase.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/usecase/SwitchPinnedStatusUseCase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/domain/use_case/SwitchPinnedStatusUseCase.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/viewmodel/NotesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/viewmodel/NotesViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/NoteCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/NoteCard.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/NoteScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/SearchBar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/SearchBar.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/Subtitle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/Subtitle.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/composable/Title.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/Title.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note/viewmodel/NotesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/viewmodel/NotesViewModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,8 +66,8 @@
       <list>
         <option value="Kotlin Data Class" />
         <option value="Kotlin Interface" />
-        <option value="Kotlin Class" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -231,7 +240,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788687041217</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Define suspend functions with coroutines">
+      <option name="closed" value="true" />
+      <created>1788691155746</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1788691155746</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -240,7 +257,8 @@
     <MESSAGE value="Implement the view model with tets data" />
     <MESSAGE value="Implement the composable functions" />
     <MESSAGE value="Enhance the UI elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhance the UI elements" />
+    <MESSAGE value="Define suspend functions with coroutines" />
+    <option name="LAST_COMMIT_MESSAGE" value="Define suspend functions with coroutines" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
