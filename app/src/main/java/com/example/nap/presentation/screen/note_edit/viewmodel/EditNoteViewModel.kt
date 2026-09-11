@@ -1,8 +1,9 @@
 package com.example.nap.presentation.screen.note_edit.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nap.data.repository.TestNotesRepositoryImpl
+import com.example.nap.data.repository.NotesRepositoryImpl
 import com.example.nap.domain.model.Note
 import com.example.nap.domain.use_case.DeleteNoteUseCase
 import com.example.nap.domain.use_case.EditNoteUseCase
@@ -13,8 +14,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class EditNoteViewModel(private val noteId: Int) : ViewModel() {
-    private val repository = TestNotesRepositoryImpl
+class EditNoteViewModel(private val noteId: Int, context: Context) : ViewModel() {
+    private val repository = NotesRepositoryImpl.getInstance(context)
     private val editNoteUseCase = EditNoteUseCase(repository)
     private val getNoteUseCase = GetNoteUseCase(repository)
     private val deleteNoteState = DeleteNoteUseCase(repository)
@@ -105,5 +106,6 @@ sealed interface EditNoteState {
         val isSaveEnabled: Boolean
             get() = note.title.isNotBlank() && note.content.isNotBlank()
     }
+
     data object Finished : EditNoteState
 }

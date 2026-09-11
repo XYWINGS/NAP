@@ -1,10 +1,11 @@
 package com.example.nap.presentation.screen.note_display.viewmodel
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nap.data.repository.TestNotesRepositoryImpl
+import com.example.nap.data.repository.NotesRepositoryImpl
 import com.example.nap.domain.model.Note
 import com.example.nap.domain.use_case.GetAllNotesUseCase
 import com.example.nap.domain.use_case.SearchNoteUseCase
@@ -20,12 +21,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class NotesViewModel : ViewModel() {
+class NotesViewModel(context: Context) : ViewModel() {
     //   FIXME
     /*   Using the repo here directly is a violation of the clean arch. The all asset of presentation layer
          should know nothing about the data layer. Use dependency injection instead
     */
-    private val repository: TestNotesRepositoryImpl = TestNotesRepositoryImpl
+    private val repository: NotesRepositoryImpl = NotesRepositoryImpl.getInstance(context)
     private val searchNoteUseCase = SearchNoteUseCase(repository)
     private val switchPinnedStatusUseCase = SwitchPinnedStatusUseCase(repository)
     private val getAllNotesUseCommands = GetAllNotesUseCase(repository)

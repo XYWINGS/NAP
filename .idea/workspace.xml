@@ -9,15 +9,23 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25a51483-58ff-44df-99a4-3ba31414afb8" name="Changes" comment="Implement edit note UI and view models">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/navigation/CustomNavGraph.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_edit/composable/EditNoteSceem.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_edit/viewmodel/EditNoteViewModel.kt" afterDir="false" />
+    <list default="true" id="25a51483-58ff-44df-99a4-3ba31414afb8" name="Changes" comment="Implement room database features without DI">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/dao/NotesDao.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/database/NotesDatabase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/mapper/NoteMapper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/model/NoteDBModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/repository/NotesRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/repository/TestNotesRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/data/repository/TestNotesRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/navigation/CustomNavGraph.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/navigation/CustomNavGraph.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_creation/composable/CreateNoteScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_creation/composable/CreateNoteScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_creation/viewmodel/CreateNoteViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_creation/viewmodel/CreateNoteViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/NoteScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/composable/NoteScreen.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/viewmodel/NotesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_display/viewmodel/NotesViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_edit/composable/EditNoteSceem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_edit/composable/EditNoteScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_edit/viewmodel/EditNoteViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/nap/presentation/screen/note_edit/viewmodel/EditNoteViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +47,12 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="NAP" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -91,6 +104,7 @@
   "keyToString": {
     "Android App.app.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "PROJECT_TRUSTED_KEY": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
@@ -110,6 +124,9 @@
     </key>
     <key name="CreateKotlinClassDialog.RecentsKey">
       <recent name="com.example.nap.data" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.example.nap.data.model" />
     </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
       <recent name="com.example.nap.presentation.screen.note_edit.viewmodel" />
@@ -243,7 +260,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788706397518</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Implement the nav graph">
+      <option name="closed" value="true" />
+      <created>1788712726870</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1788712726870</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -255,7 +280,9 @@
     <MESSAGE value="Define suspend functions with coroutines" />
     <MESSAGE value="Implement create note UI and view models" />
     <MESSAGE value="Implement edit note UI and view models" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement edit note UI and view models" />
+    <MESSAGE value="Implement the nav graph" />
+    <MESSAGE value="Implement room database features without DI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement room database features without DI" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

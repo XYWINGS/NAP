@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -36,11 +37,16 @@ android {
 }
 
 dependencies {
-    //    Import this inorder to use view models
+//  Room databse dependency
+    implementation(libs.androidx.room.runtime)
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.androidx.room.ktx.v285)
+    ksp(libs.androidx.room.compiler)
+//   Import this inorder to use view models
     implementation(platform(libs.androidx.compose.bom))
-//    Import material icon library
+//   Import material icon library
     implementation(libs.androidx.compose.material.icons.core)
-//    Navigation library
+//   Navigation library
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
