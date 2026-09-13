@@ -7,10 +7,18 @@ import com.example.di.domain.Item
 import javax.inject.Inject
 
 class ExampleViewModel @Inject constructor(
-    private val exampleUseCase: ExampleUseCase
+    private val exampleUseCase: ExampleUseCase, private val item: Item
 ) : ViewModel() {
-    fun exampleMethod(item: Item) {
+    fun exampleMethod() {
         Log.d("ExampleTest", "ËxampleUseCase invoke $item")
         exampleUseCase(item)
+    }
+}
+
+class ExampleViewModelFactory @Inject constructor(
+    private val exampleUseCase: ExampleUseCase
+) {
+    fun create(item: Item): ExampleViewModel {
+        return ExampleViewModel(exampleUseCase, item)
     }
 }

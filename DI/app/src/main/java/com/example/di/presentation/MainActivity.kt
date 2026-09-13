@@ -14,16 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.LineHeightStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.di.ExampleApp
-import com.example.di.data.Database
-import com.example.di.data.ExampleRepositoryImpl
-import com.example.di.di.Component
-import com.example.di.domain.ExampleRepository
-import com.example.di.domain.ExampleUseCase
 import com.example.di.domain.Item
 import com.example.di.presentation.theme.DITheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +24,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
-    lateinit var exampleViewModel: ExampleViewModel
+    lateinit var exampleViewModelFactory: ExampleViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +39,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     ExampleScreen(
                         modifier = Modifier.padding(innerPadding), exampleViewModel = viewModel {
-                            exampleViewModel
+                            exampleViewModelFactory.create(Item(0))
                         })
                 }
             }
@@ -66,7 +58,7 @@ fun ExampleScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp), onClick = {
-                exampleViewModel.exampleMethod(Item(0))
+                exampleViewModel.exampleMethod()
             }) { Text("Click Meeeeeeeee") }
     }
 }
