@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.di.ExampleApp
 import com.example.di.data.Database
 import com.example.di.data.ExampleRepositoryImpl
 import com.example.di.di.Component
@@ -31,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val component = Component()
+        val component = (application as ExampleApp).component
         component.inject(this)
         enableEdgeToEdge()
         setContent {
