@@ -2,8 +2,9 @@ package com.example.nap.domain.use_case
 
 import com.example.nap.domain.repository.NotesRepository
 import com.example.nap.domain.model.Note
+import javax.inject.Inject
 
-class EditNoteUseCase(
+class EditNoteUseCase @Inject constructor(
     private val repository: NotesRepository
 ) {
     /*The date time is not a client requirement and the user should not provide the data. The date is

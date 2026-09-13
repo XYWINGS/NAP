@@ -2,8 +2,9 @@ package com.example.nap.domain.use_case
 
 import com.example.nap.domain.repository.NotesRepository
 import com.example.nap.domain.model.Note
+import javax.inject.Inject
 
-class GetNoteUseCase(
+class GetNoteUseCase @Inject constructor(
     private val repository: NotesRepository
 ) {
     suspend operator fun invoke(noteId: Int): Note {

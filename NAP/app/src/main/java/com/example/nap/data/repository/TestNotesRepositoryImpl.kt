@@ -7,13 +7,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
 /*
  Declaring the repo as an object will make it a singleton class. So there will be no data mismatches
  when used across multiple classes
 */
 
-object TestNotesRepositoryImpl : NotesRepository {
+class TestNotesRepositoryImpl @Inject constructor() : NotesRepository {
 
     private val addSomeNotes: MutableList<Note> = mutableListOf<Note>().apply {
         repeat(100) {

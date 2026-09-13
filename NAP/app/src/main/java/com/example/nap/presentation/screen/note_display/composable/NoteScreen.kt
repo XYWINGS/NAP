@@ -1,6 +1,5 @@
 package com.example.nap.presentation.screen.note_display.composable
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -22,9 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.nap.domain.model.Note
 import com.example.nap.presentation.screen.note_display.viewmodel.NoteScreenState
 import com.example.nap.presentation.screen.note_display.viewmodel.NotesCommands
@@ -36,10 +34,7 @@ import com.example.nap.presentation.ui.theme.PinnedNotesColor
 fun NoteScreen(
 //  Modifier should be the first param passed down to a composable function, Default value is Modifier
     modifier: Modifier = Modifier,
-    context: Context = LocalContext.current.applicationContext,
-    viewMoel: NotesViewModel = viewModel {
-        NotesViewModel(context)
-    },
+    viewMoel: NotesViewModel = hiltViewModel(),
     onNoteClick: (Note) -> Unit,
     onFloatingActionButtonClick: () -> Unit
 ) {

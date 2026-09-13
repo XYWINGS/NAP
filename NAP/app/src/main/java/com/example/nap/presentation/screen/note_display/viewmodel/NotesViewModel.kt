@@ -1,15 +1,14 @@
 package com.example.nap.presentation.screen.note_display.viewmodel
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nap.data.repository.NotesRepositoryImpl
 import com.example.nap.domain.model.Note
 import com.example.nap.domain.use_case.GetAllNotesUseCase
 import com.example.nap.domain.use_case.SearchNoteUseCase
 import com.example.nap.domain.use_case.SwitchPinnedStatusUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,17 +18,16 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@HiltViewModel
 @OptIn(ExperimentalCoroutinesApi::class)
-class NotesViewModel(context: Context) : ViewModel() {
-    //   FIXME
-    /*   Using the repo here directly is a violation of the clean arch. The all asset of presentation layer
-         should know nothing about the data layer. Use dependency injection instead
-    */
-    private val repository: NotesRepositoryImpl = NotesRepositoryImpl.getInstance(context)
-    private val searchNoteUseCase = SearchNoteUseCase(repository)
-    private val switchPinnedStatusUseCase = SwitchPinnedStatusUseCase(repository)
-    private val getAllNotesUseCommands = GetAllNotesUseCase(repository)
+class NotesViewModel @Inject constructor(
+    private val getAllNotesUseCase: GetAllNotesUseCase,
+    private val searchNoteUseCase: SearchNoteUseCase,
+    private val switchPinnedStatusUseCase: SwitchPinnedStatusUseCase
+) : ViewModel() {
+
 
     //Parametrized mutable state flow variable to store all the user entered search queries
     private val query: MutableStateFlow<String> = MutableStateFlow("")
@@ -55,7 +53,7 @@ class NotesViewModel(context: Context) : ViewModel() {
             _state.update { it.copy(query = input) }
         }.flatMapLatest {
             if (it.isBlank()) {
-                getAllNotesUseCommands()
+                getAllNotesUseCase()
             } else {
                 searchNoteUseCase(it)
             }

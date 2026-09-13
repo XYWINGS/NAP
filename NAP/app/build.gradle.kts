@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+//    KSP AND HILT
     alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -39,15 +41,22 @@ android {
 dependencies {
 //  Room databse dependency
     implementation(libs.androidx.room.runtime)
-    // optional - Kotlin Extensions and Coroutines support for Room
+//  Optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx.v285)
     ksp(libs.androidx.room.compiler)
-//   Import this inorder to use view models
+//  Import this in order to use view models
     implementation(platform(libs.androidx.compose.bom))
-//   Import material icon library
+//  Import material icon library
     implementation(libs.androidx.compose.material.icons.core)
-//   Navigation library
+//  Navigation library
     implementation(libs.androidx.navigation.compose)
+//  Hilt and hilt compiler
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+//-------------------------------------
+//  Hilt navigations compose for viewmodel injection
+    implementation(libs.androidx.hilt.navigation.compose)
+
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
