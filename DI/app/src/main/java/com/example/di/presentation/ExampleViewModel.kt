@@ -4,8 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.di.domain.ExampleUseCase
 import com.example.di.domain.Item
+import javax.inject.Inject
 
-class ExampleViewModel(
+class ExampleViewModel @Inject constructor(
     private val exampleUseCase: ExampleUseCase
 ) : ViewModel() {
     fun exampleMethod(item: Item) {

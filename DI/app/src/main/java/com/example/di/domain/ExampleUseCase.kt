@@ -1,9 +1,13 @@
 package com.example.di.domain
 
 import android.util.Log
+import com.example.di.data.ExampleRepositoryImpl
+import javax.inject.Inject
 
-class ExampleUseCase(
-    private val repository: ExampleRepository
+class ExampleUseCase @Inject constructor(
+//    private val repository: ExampleRepository
+    private val repository: ExampleRepositoryImpl
+
 ) {
 
     operator fun invoke(item: Item) {
@@ -24,3 +28,6 @@ class ExampleUseCase(
     }
 }
 * */
+
+/*In hilt if we need constructor injection we add the inject annotation to the constructor, if we need
+* field injection add the inject annotation to the fields*/

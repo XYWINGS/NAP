@@ -26,14 +26,21 @@ import com.example.di.domain.ExampleRepository
 import com.example.di.domain.ExampleUseCase
 import com.example.di.domain.Item
 import com.example.di.presentation.theme.DITheme
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
     lateinit var exampleViewModel: ExampleViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val component = (application as ExampleApp).component
-        component.inject(this)
+
+//For manual DI
+//        val component = (application as ExampleApp).component
+//        component.inject(this)
+
         enableEdgeToEdge()
         setContent {
             DITheme {
