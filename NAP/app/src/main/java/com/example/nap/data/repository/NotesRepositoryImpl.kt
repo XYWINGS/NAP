@@ -4,7 +4,7 @@ import com.example.nap.data.dao.NotesDao
 import com.example.nap.data.mapper.toEntities
 import com.example.nap.data.mapper.toEntity
 import com.example.nap.data.mapper.toNoteDBModel
-import com.example.nap.data.model.NoteDBModel
+import com.example.nap.domain.model.ContentItem
 import com.example.nap.domain.model.Note
 import com.example.nap.domain.repository.NotesRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,12 +16,19 @@ class NotesRepositoryImpl @Inject constructor(
 ) : NotesRepository {
 
     override suspend fun addNote(
-        title: String, content: String, isPinned: Boolean, updatedAt: Long
+        title: String,
+        content: List<ContentItem>,
+        isPinned: Boolean,
+        updatedAt: Long
     ) {
-        val noteDbModel = NoteDBModel(
-            id = 0, title, content, updatedAt, isPinned
-
+        val note = Note(
+            id = 0,
+            title,
+            content,
+            updatedAt,
+            isPinned
         )
+        val noteDbModel = note.toNoteDBModel()
         notesDao.addNote(noteDbModel)
     }
 

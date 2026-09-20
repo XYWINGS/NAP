@@ -2,6 +2,7 @@ package com.example.nap.presentation.screen.note_creation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nap.domain.model.ContentItem
 import com.example.nap.domain.use_case.AddNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateNoteViewModel @Inject constructor (
+class CreateNoteViewModel @Inject constructor(
     private val addNoteUseCase: AddNoteUseCase
 ) : ViewModel() {
 
@@ -58,8 +59,8 @@ class CreateNoteViewModel @Inject constructor (
                     _state.update { previousState ->
                         if (previousState is CreateNoteState.Creation) {
                             val title = previousState.title
-                            val content = previousState.content
-                            addNoteUseCase(title, content)
+                            val content = ContentItem.Text(content = previousState.content)
+                            addNoteUseCase(title, listOf(content))
                             CreateNoteState.Finished
                         } else {
                             previousState

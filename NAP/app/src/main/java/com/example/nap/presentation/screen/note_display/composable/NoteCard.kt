@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.nap.domain.model.ContentItem
 import com.example.nap.domain.model.Note
 import com.example.nap.presentation.utils.DateFormatter
 
@@ -66,13 +67,21 @@ fun NoteCard(
             color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            text = note.content,
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onSurface,
-            fontWeight = FontWeight.Medium,
-            maxLines = 4,
-            overflow = TextOverflow.Ellipsis
-        )
+        /*We just filter the text content from theContentItem and display them */
+        note.content
+            .filterIsInstance<ContentItem.Text>()
+            .joinToString("\n") {
+                it.content
+            }.let {
+                Text(
+                    text = it,
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Medium,
+                    maxLines = 4,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
     }
 }

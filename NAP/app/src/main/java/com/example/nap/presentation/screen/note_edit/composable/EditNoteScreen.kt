@@ -29,7 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.nap.presentation.screen.note_edit.viewmodel.EditNoteCommand.*
+import com.example.nap.domain.model.ContentItem
+import com.example.nap.presentation.screen.note_edit.viewmodel.EditNoteCommand
 import com.example.nap.presentation.screen.note_edit.viewmodel.EditNoteState
 import com.example.nap.presentation.screen.note_edit.viewmodel.EditNoteViewModel
 import com.example.nap.presentation.utils.DateFormatter
@@ -64,7 +65,7 @@ fun EditNoteScreen(
                                 modifier = Modifier
                                     .padding(end = 16.dp)
                                     .clickable {
-                                        viewModel.processCommand((Delete))
+                                        viewModel.processCommand((EditNoteCommand.Delete))
                                     },
                                 imageVector = Icons.Outlined.Delete,
                                 contentDescription = "Delete note button"
@@ -76,7 +77,7 @@ fun EditNoteScreen(
                                 modifier = Modifier
                                     .padding(start = 16.dp, end = 8.dp)
                                     .clickable {
-                                        viewModel.processCommand((Back))
+                                        viewModel.processCommand((EditNoteCommand.Back))
                                     },
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back arrow"
@@ -94,7 +95,7 @@ fun EditNoteScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 8.dp),
                         value = currentState.note.title,
-                        onValueChange = { viewModel.processCommand((InputTitle(it))) },
+                        onValueChange = { viewModel.processCommand((EditNoteCommand.InputTitle(it))) },
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
@@ -120,36 +121,16 @@ fun EditNoteScreen(
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
-                            .weight(1f),
-                        value = currentState.note.content,
-                        onValueChange = {
-                            viewModel.processCommand(
-                                (InputContent(
-                                    it
-                                ))
+                    currentState.note.content.filterIsInstance<ContentItem.Text>()
+                        .forEach { contentItem ->
+                            TextContent(
+                                modifier = Modifier.weight(1f),
+                                text = contentItem.content,
+                                onTextChange = {
+                                    viewModel.processCommand(EditNoteCommand.InputContent(it))
+                                }
                             )
-                        },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                        ),
-                        textStyle = TextStyle(
-                            fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface
-                        ),
-                        placeholder = {
-                            Text(
-                                text = "Note something down",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
-                            )
-                        })
+                        }
                     Button(
                         modifier = Modifier
                             .padding(horizontal = 24.dp)
@@ -163,7 +144,7 @@ fun EditNoteScreen(
                             disabledContentColor = MaterialTheme.colorScheme.onPrimary,
                         ),
                         onClick = {
-                            viewModel.processCommand(Save)
+                            viewModel.processCommand(EditNoteCommand.Save)
                         }) {
                         Text(text = "Save Note")
                     }
@@ -181,4 +162,35 @@ fun EditNoteScreen(
 //            Show some kind of progress bar here in case of data fetching
         }
     }
+}
+
+/*If you need to specify the weight in a private composable you need to mention that it is an extensible function
+* from a row or a column. Ex - ColumnScope.TextContent(). But that will reduce reusability*/
+@Composable
+private fun TextContent(
+    modifier: Modifier = Modifier, text: String, onTextChange: (String) -> Unit
+) {
+    TextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        value = text,
+        onValueChange = onTextChange,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+        ),
+        textStyle = TextStyle(
+            fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface
+        ),
+        placeholder = {
+            Text(
+                text = "Note something down",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
+            )
+        })
 }

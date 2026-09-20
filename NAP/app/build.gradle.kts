@@ -4,6 +4,8 @@ plugins {
 //    KSP AND HILT
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+//    serialization
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -56,7 +58,8 @@ dependencies {
 //-------------------------------------
 //  Hilt navigations compose for viewmodel injection
     implementation(libs.androidx.hilt.navigation.compose)
-
+//    JSON serialization depedency
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)

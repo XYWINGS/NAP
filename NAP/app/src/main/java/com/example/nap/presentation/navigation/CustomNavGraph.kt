@@ -11,8 +11,8 @@ import com.example.nap.presentation.screen.note_edit.composable.EditNoteScreen
 
 /*When we click on a list item, the createRoot() method is called. Inside it we get the noteid as a string.
 * Then the related screen will be searched and found, since the screen expect some arguments at the moment of navigation an
-* instance of the bundle class will be created. It contains arguments and stores all objects as KV pairs. By default all the nav params
-* are strings*/
+* instance of the bundle class will be created. It contains arguments and stores all objects as KV pairs.
+* By default, all the nav params are strings*/
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
@@ -23,7 +23,8 @@ fun NavGraph() {
         composable(Screen.NotesDisplayScreen.route) {
             NoteScreen(
                 onNoteClick = {
-                    /*paramas are passed through strings as well. If need to pass note id = 5 to the edit screen, we define it by separating slashes like edit_note/5*/
+                    /*paramas are passed through strings as well. If you need to pass note id = 5 to
+                    * the edit screen, we define it by separating slashes like edit_note/5*/
                     navController.navigate(Screen.EditNoteScreen.createRoute(it.id))
                 },
                 onFloatingActionButtonClick = {

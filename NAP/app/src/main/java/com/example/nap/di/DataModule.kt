@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.nap.data.dao.NotesDao
 import com.example.nap.data.database.NotesDatabase
-import com.example.nap.data.repository.TestNotesRepositoryImpl
+import com.example.nap.data.repository.NotesRepositoryImpl
 import com.example.nap.domain.repository.NotesRepository
 import dagger.Binds
 import dagger.Module
@@ -20,18 +20,18 @@ interface DataModule {
 
     /*  With DI you can easily switch between test and real implementations*/
 //  Test Impl
-    @Singleton
-    @Binds
-    fun bindNotesRepository(
-        impl: TestNotesRepositoryImpl
-    ): NotesRepository
-
-//    Real Impl
 //    @Singleton
 //    @Binds
 //    fun bindNotesRepository(
-//        impl: NotesRepositoryImpl
+//        impl: TestNotesRepositoryImpl
 //    ): NotesRepository
+
+    //    Real Impl
+    @Singleton
+    @Binds
+    fun bindNotesRepository(
+        impl: NotesRepositoryImpl
+    ): NotesRepository
 
     companion object {
 
@@ -41,8 +41,11 @@ interface DataModule {
             @ApplicationContext context: Context
         ): NotesDatabase {
             return Room.databaseBuilder(
-                context = context, klass = NotesDatabase::class.java, name = "notes.db"
-            ).build()
+                context = context,
+                klass = NotesDatabase::class.java,
+                name = "notes.db"
+            ).fallbackToDestructiveMigration(dropAllTables = true)
+                .build()
         }
 
         @Singleton

@@ -2,6 +2,7 @@ package com.example.nap.presentation.screen.note_edit.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nap.domain.model.ContentItem
 import com.example.nap.domain.model.Note
 import com.example.nap.domain.use_case.DeleteNoteUseCase
 import com.example.nap.domain.use_case.EditNoteUseCase
@@ -44,7 +45,8 @@ class EditNoteViewModel @AssistedInject constructor(
             is EditNoteCommand.InputContent -> {
                 _state.update { previousState: EditNoteState ->
                     if (previousState is Editing) {
-                        val newNote = previousState.note.copy(content = command.content)
+                        val newContent = ContentItem.Text(content = command.content)
+                        val newNote = previousState.note.copy(content = listOf(newContent))
                         previousState.copy(note = newNote)
                     } else {
                         previousState
@@ -115,8 +117,19 @@ sealed interface EditNoteState {
     data class Editing(
         val note: Note
     ) : EditNoteState {
+        /*Following will check and enable the save button if the title or any of the content type is available*/
         val isSaveEnabled: Boolean
-            get() = note.title.isNotBlank() && note.content.isNotBlank()
+            get() {
+                return when {
+                    note.title.isBlank() -> false
+                    note.content.isEmpty() -> false
+                    else -> {
+                        note.content.any {
+                            it !is ContentItem.Text || it.content.isNotBlank()
+                        }
+                    }
+                }
+            }
     }
 
     data object Finished : EditNoteState
