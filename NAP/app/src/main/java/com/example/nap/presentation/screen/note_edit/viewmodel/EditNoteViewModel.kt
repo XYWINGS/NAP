@@ -1,5 +1,6 @@
 package com.example.nap.presentation.screen.note_edit.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nap.domain.model.ContentItem
@@ -31,7 +32,14 @@ class EditNoteViewModel @AssistedInject constructor(
         viewModelScope.launch {
             _state.update {
                 val note = getNoteUseCase(noteId)
-                Editing(note)
+                /*If the last content item is an image,In order to add some text after it
+                * we add this check here. If it's an image, add an empty edittext after it */
+                val content = if (note.content.lastOrNull() !is ContentItem.Text) {
+                    note.content + ContentItem.Text("")
+                } else {
+                    note.content
+                }
+                Editing(note.copy(content = content))
             }
         }
     }
@@ -43,11 +51,21 @@ class EditNoteViewModel @AssistedInject constructor(
             }
 
             is EditNoteCommand.InputContent -> {
-                _state.update { previousState: EditNoteState ->
+                _state.update { previousState ->
                     if (previousState is Editing) {
-                        val newContent = ContentItem.Text(content = command.content)
-                        val newNote = previousState.note.copy(content = listOf(newContent))
-                        previousState.copy(note = newNote)
+                        val newContent = previousState.note.content
+                            .mapIndexed { index, item ->
+                                if (index == command.index && item is ContentItem.Text) {
+                                    item.copy(content = command.content)
+                                } else {
+                                    item
+                                }
+                            }
+                        val newNote = previousState.note.copy(content = newContent)
+                        previousState.copy(
+                            note = newNote,
+                        )
+
                     } else {
                         previousState
                     }
@@ -65,12 +83,15 @@ class EditNoteViewModel @AssistedInject constructor(
                 }
 
             }/*When saving if we are in the saving state save the new node, if not keep the previous state and return it*/
-            EditNoteCommand.Save -> {
+            is EditNoteCommand.Save -> {
                 viewModelScope.launch {
                     _state.update { previousState ->
                         if (previousState is Editing) {
                             val note = previousState.note
-                            editNoteUseCase(note)
+                            val content = previousState.note.content.filter {
+                                it !is ContentItem.Text || it.content.isNotBlank()
+                            }
+                            editNoteUseCase(note.copy(content = content))
                             Finished
                         } else {
                             previousState
@@ -92,6 +113,44 @@ class EditNoteViewModel @AssistedInject constructor(
                     }
                 }
             }
+
+            is EditNoteCommand.AddImage -> {
+                _state.update { previousState ->
+                    if (previousState is Editing) {
+                        val oldNote = previousState.note
+                        oldNote.content.toMutableList().apply {
+                            val lastItem = last()
+                            if (lastItem is ContentItem.Text && lastItem.content.isBlank()) {
+                                removeAt(lastIndex)
+                            }
+                            add(ContentItem.Image(command.uri.toString()))
+                            add(ContentItem.Text(""))
+                        }.let {
+                            val newNote = oldNote.copy(content = it)
+                            previousState.copy(note = newNote)
+                        }
+                    } else {
+                        previousState
+                    }
+                }
+            }
+
+            is EditNoteCommand.DeleteImage -> {
+                _state.update { previousState ->
+                    if (previousState is Editing) {
+                        val oldNote = previousState.note
+
+                        oldNote.content.toMutableList().apply {
+                            removeAt(command.index)
+                        }.let {
+                            val newNote = oldNote.copy(content = it)
+                            previousState.copy(note = newNote)
+                        }
+                    } else {
+                        previousState
+                    }
+                }
+            }
         }
     }
 
@@ -106,10 +165,12 @@ class EditNoteViewModel @AssistedInject constructor(
 
 sealed interface EditNoteCommand {
     data class InputTitle(val title: String) : EditNoteCommand
-    data class InputContent(val content: String) : EditNoteCommand
+    data class InputContent(val content: String, val index: Int) : EditNoteCommand
     data object Save : EditNoteCommand
     data object Back : EditNoteCommand
     data object Delete : EditNoteCommand
+    data class AddImage(val uri: Uri) : EditNoteCommand
+    data class DeleteImage(val index: Int) : EditNoteCommand
 }
 
 sealed interface EditNoteState {

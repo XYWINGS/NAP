@@ -1,5 +1,8 @@
 package com.example.nap.presentation.screen.note_edit.composable
 
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,12 +32,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.nap.domain.model.ContentItem
 import com.example.nap.presentation.screen.note_edit.viewmodel.EditNoteCommand
 import com.example.nap.presentation.screen.note_edit.viewmodel.EditNoteState
 import com.example.nap.presentation.screen.note_edit.viewmodel.EditNoteViewModel
+import com.example.nap.presentation.ui.component.GroupedContent
+import com.example.nap.presentation.ui.theme.CustomIcons
 import com.example.nap.presentation.utils.DateFormatter
 
+
+/*If you need to specify the weight in a private composable you need to mention that it is an extensible function
+* from a row or a column. Ex - ColumnScope.TextContent(). But that will reduce reusability*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditNoteScreen(
@@ -47,6 +54,17 @@ fun EditNoteScreen(
         }),
 ) {
     val state = viewModel.state.collectAsState()
+    /*This is an object which knows how to lunch an activity and get result. This is a simplified version
+* of the intent + onActivityResult under the hood */
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri ->
+            uri?.let {
+                Log.d("CreateNoteScreen URI", it.toString())
+                viewModel.processCommand(EditNoteCommand.AddImage(it))
+            }
+        }
+    )
     when (val currentState = state.value) {
         is EditNoteState.Editing -> {
             Scaffold(
@@ -63,7 +81,18 @@ fun EditNoteScreen(
                         actions = {
                             Icon(
                                 modifier = Modifier
-                                    .padding(end = 16.dp)
+                                    .clickable {
+                                        /*We should specify the type and the format here*/
+                                        imagePicker.launch("image/*")
+                                    }
+                                    .padding(end = 16.dp),
+                                imageVector = CustomIcons.AddPhoto,
+                                contentDescription = "Add photo from gallery",
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                            Icon(
+                                modifier = Modifier
+                                    .padding(end = 24.dp)
                                     .clickable {
                                         viewModel.processCommand((EditNoteCommand.Delete))
                                     },
@@ -121,16 +150,21 @@ fun EditNoteScreen(
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
-                    currentState.note.content.filterIsInstance<ContentItem.Text>()
-                        .forEach { contentItem ->
-                            TextContent(
-                                modifier = Modifier.weight(1f),
-                                text = contentItem.content,
-                                onTextChange = {
-                                    viewModel.processCommand(EditNoteCommand.InputContent(it))
-                                }
+
+                    GroupedContent(
+                        modifier = Modifier.weight(1f),
+                        content = currentState.note.content,
+                        onTextChange = { index, text ->
+                            viewModel.processCommand(
+                                EditNoteCommand.InputContent(text, index)
+                            )
+                        },
+                        onDeleteImageClick = { index ->
+                            viewModel.processCommand(
+                                EditNoteCommand.DeleteImage(index)
                             )
                         }
+                    )
                     Button(
                         modifier = Modifier
                             .padding(horizontal = 24.dp)
@@ -162,35 +196,4 @@ fun EditNoteScreen(
 //            Show some kind of progress bar here in case of data fetching
         }
     }
-}
-
-/*If you need to specify the weight in a private composable you need to mention that it is an extensible function
-* from a row or a column. Ex - ColumnScope.TextContent(). But that will reduce reusability*/
-@Composable
-private fun TextContent(
-    modifier: Modifier = Modifier, text: String, onTextChange: (String) -> Unit
-) {
-    TextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp),
-        value = text,
-        onValueChange = onTextChange,
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.Transparent,
-            unfocusedContainerColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-        ),
-        textStyle = TextStyle(
-            fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface
-        ),
-        placeholder = {
-            Text(
-                text = "Note something down",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
-            )
-        })
 }

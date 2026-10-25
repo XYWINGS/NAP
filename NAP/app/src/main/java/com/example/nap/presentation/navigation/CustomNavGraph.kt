@@ -23,7 +23,7 @@ fun NavGraph() {
         composable(Screen.NotesDisplayScreen.route) {
             NoteScreen(
                 onNoteClick = {
-                    /*paramas are passed through strings as well. If you need to pass note id = 5 to
+                    /*params are passed through strings as well. If you need to pass note id = 5 to
                     * the edit screen, we define it by separating slashes like edit_note/5*/
                     navController.navigate(Screen.EditNoteScreen.createRoute(it.id))
                 },

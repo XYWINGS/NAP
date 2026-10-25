@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.nap.domain.model.ContentItem
 import com.example.nap.domain.model.Note
 import com.example.nap.presentation.screen.note_display.viewmodel.NoteScreenState
 import com.example.nap.presentation.screen.note_display.viewmodel.NotesCommands
@@ -143,17 +144,36 @@ fun NoteScreen(
              based on the index
              */
             itemsIndexed(items = state.otherNotes, key = { _, note -> note.id }) { index, note ->
-                NoteCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp),
-                    note = note,
-                    onNoteClick = onNoteClick,
-                    backgroundColor = OtherNotesColor[index % OtherNotesColor.size],
-                    onLongClick = {
-                        viewMoel.processCommand(NotesCommands.SwitchPinStatus(note.id))
-                    },
-                )
+                val firstImageUrl = note.content
+                    .filterIsInstance<ContentItem.Image>()
+                    .map { it.url }
+                    .firstOrNull()
+                if (firstImageUrl.isNullOrBlank()) {
+                    NoteCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        note = note,
+                        onNoteClick = onNoteClick,
+                        backgroundColor = OtherNotesColor[index % OtherNotesColor.size],
+                        onLongClick = {
+                            viewMoel.processCommand(NotesCommands.SwitchPinStatus(note.id))
+                        },
+                    )
+                } else {
+                    NoteCardWithImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        note = note,
+                        imageUrl = firstImageUrl,
+                        onNoteClick = onNoteClick,
+                        backgroundColor = OtherNotesColor[index % OtherNotesColor.size],
+                        onLongClick = {
+                            viewMoel.processCommand(NotesCommands.SwitchPinStatus(note.id))
+                        },
+                    )
+                }
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }

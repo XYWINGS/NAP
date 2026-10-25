@@ -66,13 +66,14 @@ fun NoteCard(
             fontSize = 12.sp,
             color = MaterialTheme.colorScheme.onSurface
         )
-        Spacer(modifier = Modifier.height(24.dp))
         /*We just filter the text content from theContentItem and display them */
         note.content
             .filterIsInstance<ContentItem.Text>()
-            .joinToString("\n") {
-                it.content
-            }.let {
+            .filter { it.content.isNotBlank() }
+            .joinToString("\n") { it.content }
+            .takeIf { it.isNotBlank() }
+            ?.let {
+                Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = it,
                     fontSize = 16.sp,

@@ -1,6 +1,8 @@
 package com.example.nap.presentation.screen.note_creation.composable
 
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +35,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.nap.presentation.screen.note_creation.viewmodel.CreateNoteCommand
 import com.example.nap.presentation.screen.note_creation.viewmodel.CreateNoteState
 import com.example.nap.presentation.screen.note_creation.viewmodel.CreateNoteViewModel
+import com.example.nap.presentation.ui.component.GroupedContent
+import com.example.nap.presentation.ui.theme.CustomIcons
 import com.example.nap.presentation.utils.DateFormatter.formatCurrentDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,8 +47,20 @@ fun CreateNoteScreen(
     onFinishNoteCreation: () -> Unit
 ) {
     val state = viewModel.state.collectAsState()
+    /*This is an object which knows how to lunch an activity and get result. This is a simplified version
+    * of the intent + onActivityResult under the hood */
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri ->
+            uri?.let {
+                Log.d("CreateNoteScreen URI", it.toString())
+                viewModel.processCommand(CreateNoteCommand.AddImage(it))
+            }
+        }
+    )
     when (val currentState = state.value) {
-        is CreateNoteState.Creation -> {/*LaunchedEffects and  SideEffect are used to perform some action outside the scope of composable function.
+        is CreateNoteState.Creation -> {
+            /*LaunchedEffects and  SideEffect are used to perform some action outside the scope of composable function.
             * Composables only should do the UI displays. Never to change the state of anything. Handle
             * the side effects via above*/
             LaunchedEffect(key1 = currentState.title) {
@@ -74,6 +90,19 @@ fun CreateNoteScreen(
                                     },
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back arrow"
+                            )
+                        },
+                        actions = {
+                            Icon(
+                                modifier = Modifier
+                                    .clickable {
+                                        /*We should specify the type and the format here*/
+                                        imagePicker.launch("image/*")
+                                    }
+                                    .padding(end = 24.dp),
+                                imageVector = CustomIcons.AddPhoto,
+                                contentDescription = "Add photo from gallery",
+                                tint = MaterialTheme.colorScheme.onSurface
                             )
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
@@ -114,42 +143,32 @@ fun CreateNoteScreen(
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
-                    TextField(
+
+                    GroupedContent(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
                             .weight(1f),
-                        value = currentState.content,
-                        onValueChange = {
+                        content = currentState.content,
+                        onDeleteImageClick = { index ->
                             viewModel.processCommand(
-                                (CreateNoteCommand.InputContent(
-                                    it
-                                ))
+                                CreateNoteCommand.DeleteImage(index)
                             )
                         },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                        ),
-                        textStyle = TextStyle(
-                            fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface
-                        ),
-                        placeholder = {
-                            Text(
-                                text = "Note something down",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
+                        onTextChange = { index, text ->
+                            viewModel.processCommand(
+                                CreateNoteCommand.InputContent(
+                                    content = text,
+                                    index = index
+                                )
                             )
-                        })
+                        },
+                    )
+
                     Button(
                         modifier = Modifier
                             .padding(horizontal = 24.dp)
                             .fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
-                        enabled = currentState.isSavedEnabled,
+                        enabled = currentState.isSaveEnabled,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             disabledContainerColor = MaterialTheme.colorScheme.primary.copy(0.1f),
