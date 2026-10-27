@@ -1,5 +1,8 @@
 package com.example.nap.presentation.utils
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.example.nap.R
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
@@ -14,15 +17,16 @@ object DateFormatter {
         return formatter.format(System.currentTimeMillis())
     }
 
+    @Composable
     fun formatterDateToString(timeStamp: Long): String {
         val now = System.currentTimeMillis()
         val diff = now - timeStamp
 
         return when {
-            diff < millisInHour -> "Just Now"
+            diff < millisInHour -> stringResource(R.string.label_just_now)
             diff < millisInDays -> {
                 val hours = TimeUnit.MICROSECONDS.toHours(diff)
-                "$hours h ago"
+                stringResource(R.string.label_h_ago, hours)
             }
 
             else -> {

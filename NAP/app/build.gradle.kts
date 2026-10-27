@@ -20,7 +20,6 @@ android {
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,6 +40,8 @@ android {
 }
 
 dependencies {
+//    SPLASH SCREEN API
+    implementation(libs.androidx.core.splashscreen)
 //  Room databse dependency
     implementation(libs.androidx.room.runtime)
 //  Optional - Kotlin Extensions and Coroutines support for Room

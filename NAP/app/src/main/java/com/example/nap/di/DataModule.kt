@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 interface DataModule {
 
-    /*  With DI you can easily switch between test and real implementations*/
+    /*  With DI, you can easily switch between test and real implementations*/
 //  Test Impl
 //    @Singleton
 //    @Binds

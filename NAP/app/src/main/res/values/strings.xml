@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">NAP</string>
+    <string name="edit_text_search">Search…</string>
+    <string name="subheading_others">Others</string>
+    <string name="subheading_pinned_notes">Pinned Notes</string>
+    <string name="label_note_something_down">Note something down</string>
+    <string name="label_just_now">Just Now</string>
+    <string name="label_h_ago">%1$d h ago</string>
 </resources>

@@ -9,7 +9,7 @@ import com.example.nap.presentation.screen.note_creation.composable.CreateNoteSc
 import com.example.nap.presentation.screen.note_display.composable.NoteScreen
 import com.example.nap.presentation.screen.note_edit.composable.EditNoteScreen
 
-/*When we click on a list item, the createRoot() method is called. Inside it we get the noteid as a string.
+/*When we click on a list item, the createRoot() method is called. Inside it, we get the note-id as a string.
 * Then the related screen will be searched and found, since the screen expect some arguments at the moment of navigation an
 * instance of the bundle class will be created. It contains arguments and stores all objects as KV pairs.
 * By default, all the nav params are strings*/

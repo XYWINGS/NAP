@@ -2,9 +2,11 @@ package com.example.nap.data.repository
 
 import com.example.nap.data.dao.NotesDao
 import com.example.nap.data.file_manager.ImageFileManager
+import com.example.nap.data.mapper.toContentItemDbModels
 import com.example.nap.data.mapper.toEntities
 import com.example.nap.data.mapper.toEntity
 import com.example.nap.data.mapper.toNoteDBModel
+import com.example.nap.data.model.NoteDBModel
 import com.example.nap.domain.model.ContentItem
 import com.example.nap.domain.model.Note
 import com.example.nap.domain.repository.NotesRepository
@@ -23,15 +25,14 @@ class NotesRepositoryImpl @Inject constructor(
         isPinned: Boolean,
         updatedAt: Long
     ) {
-        val note = Note(
+        val processedContent = content.processForStorage()
+        val noteDbModel = NoteDBModel(
             id = 0,
             title,
-            content.processForStorage(),
             updatedAt,
             isPinned
         )
-        val noteDbModel = note.toNoteDBModel()
-        notesDao.addNote(noteDbModel)
+        notesDao.addNoteWithContent(noteDbModel, processedContent)
     }
 
     override suspend fun deleteNote(noteId: Int) {
@@ -59,7 +60,11 @@ class NotesRepositoryImpl @Inject constructor(
         val processedContent = note.content.processForStorage()
         val processedNote = note.copy(content = processedContent)
 
-        notesDao.addNote(processedNote.toNoteDBModel())
+        notesDao.updateNoteWithContent(
+            processedNote.toNoteDBModel(),
+            processedContent.toContentItemDbModels(note.id)
+        )
+
     }
 
     override fun getAllNotes(): Flow<List<Note>> {

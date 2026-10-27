@@ -10,7 +10,7 @@ class AddNoteUseCase @Inject constructor(
     suspend operator fun invoke(
         title: String, content: List<ContentItem>
     ) {/*
-        If the client required to make the pin state as false as default, then that responsibility falls in to the usecase
+        If the client required to make the pin state as false as default, then that responsibility falls in to the use case
         If it's about the data as it is stored, then it belongs to the data layer.
         If it's about interacting with the user, it belongs to the presentation layer
         */

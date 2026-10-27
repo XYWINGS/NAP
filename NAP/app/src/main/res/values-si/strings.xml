@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NAP</string>
+    <string name="edit_text_search">සොයන්න…</string>
+    <string name="subheading_others">වෙනත්</string>
+    <string name="subheading_pinned_notes">ඇමිණූ සටහන්</string>
+    <string name="label_note_something_down">සටහනක් ලියාගන්න</string>
+    <string name="label_just_now">Just Now</string>
+    <string name="label_h_ago">%1$d h ago</string>
+</resources>
+

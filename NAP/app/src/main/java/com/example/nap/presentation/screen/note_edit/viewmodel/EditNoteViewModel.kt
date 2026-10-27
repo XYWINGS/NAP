@@ -32,7 +32,7 @@ class EditNoteViewModel @AssistedInject constructor(
         viewModelScope.launch {
             _state.update {
                 val note = getNoteUseCase(noteId)
-                /*If the last content item is an image,In order to add some text after it
+                /*If the last content item is an image,In order to add some text after it,
                 * we add this check here. If it's an image, add an empty edittext after it */
                 val content = if (note.content.lastOrNull() !is ContentItem.Text) {
                     note.content + ContentItem.Text("")

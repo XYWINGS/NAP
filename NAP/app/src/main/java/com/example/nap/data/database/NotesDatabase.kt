@@ -3,10 +3,15 @@ package com.example.nap.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.nap.data.dao.NotesDao
+import com.example.nap.data.model.ContentItemDbModel
 import com.example.nap.data.model.NoteDBModel
 
 /*If the table structure updates change the version number as well. Otherwise, the app will crash*/
-@Database(entities = [NoteDBModel::class], version = 1, exportSchema = false)
+@Database(
+    entities = [NoteDBModel::class, ContentItemDbModel::class],
+    version = 2,
+    exportSchema = false
+)
 abstract class NotesDatabase : RoomDatabase() {
     abstract fun notesDao(): NotesDao
     /*We can completely remove the copmpanion object methos altogther if we use the data amodule for the database creation */

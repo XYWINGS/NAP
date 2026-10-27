@@ -21,8 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.nap.R
 import com.example.nap.domain.model.ContentItem
 import com.example.nap.domain.model.Note
 import com.example.nap.presentation.screen.note_display.viewmodel.NoteScreenState
@@ -96,7 +98,8 @@ fun NoteScreen(
             }
             item {
                 if (state.pinnedNotes.isNotEmpty()) Subtitle(
-                    modifier = Modifier.padding(horizontal = 24.dp), text = "Pinned Notes"
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    text = stringResource(R.string.subheading_pinned_notes)
                 )
             }
             item {
@@ -128,7 +131,8 @@ fun NoteScreen(
             }
             item {
                 if (state.pinnedNotes.isNotEmpty()) Subtitle(
-                    modifier = Modifier.padding(horizontal = 24.dp), text = "Others"
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    text = stringResource(R.string.subheading_others)
                 )
             }
             item {
